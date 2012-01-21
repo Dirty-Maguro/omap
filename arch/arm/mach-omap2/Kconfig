@@ -542,4 +542,12 @@ config TUNA_1_5_GHZ_MPU_OPP
 	  If enabled, 1.5 GHz can be selected as CPU
 	  overclock frequency.
 
+config TUNA_ASRAM
+	bool "Additional Safe RAM of ~50 MB"
+ 	default n
+ 	help
+	  If enabled, reclaims 50 MB from the reserved RAM. Reclaming 
+	  max 50 MB is safe and makes 1080p camera
+	  functionality working.
+
 endif
