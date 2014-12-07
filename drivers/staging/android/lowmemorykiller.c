@@ -118,6 +118,18 @@ static int lowmem_shrink(struct shrinker *s, struct shrink_control *sc)
 		if (tsk->flags & PF_KTHREAD)
 			continue;
 
+		/*
+		 * If we already have a death outstanding, then
+		 * bail out right away; indicating to vmscan
+		 * that we have nothing further to offer on
+		 * this pass.
+		 *
+		 */
+		if (lowmem_deathpending &&
+		    time_before_eq(jiffies, lowmem_deathpending_timeout))
+			rcu_read_unlock();
+			return 0;
+
 		p = find_lock_task_mm(tsk);
 		if (!p)
 			continue;
